@@ -1,16 +1,14 @@
 import { z } from 'zod'
 import type { H3Event } from 'h3'
-import * as z3 from 'z3-solver';
+import {init} from 'z3-solver';
 
 const userSchemaBody = z.object({
     vlnv: z.string()
 })
 
 async function callback(event: H3Event) {
-    const body = await readValidatedBody(event, userSchemaBody.parse)
-
-    const { Context } = await z3.init();
-    const { Solver, Int, And } = new Context('main');
+    const { Context } = await init();
+    const { Solver, Int, And } = Context('main');
 
     const x = Int.const('x');
 
