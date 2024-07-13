@@ -1,10 +1,9 @@
-import { z } from 'zod'
 import type { H3Event } from 'h3'
-import {init} from 'z3-solver';
+import {Z3_string} from 'z3-solver'
 
-const userSchemaBody = z.object({
-    vlnv: z.string()
-})
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+const { init } = require('z3-solver')
 
 async function callback(event: H3Event) {
     const { Context } = await init();

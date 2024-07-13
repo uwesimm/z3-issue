@@ -5,39 +5,46 @@
 pnpm install
 ```
 
-## run a test to see z3 is technoically operational
+## run a test to see z3 is operational
 ```
 pnpm test
 ```
 
-## see the failure in nuxt3
+## see it working in dev mode
 ```
 pnpm dev
 ```
 
+and issue the query ```
+curl http://localhost:3000/api/info -H 'Content-Type: application/json'
+```
 results in 
-```
+```sat```
 
-[9:51:56 AM]  ERROR  [worker reload] [worker init] Directory import '/Users/uwes/src/mixed/z3_issue/nuxt-app/node_modules/.pnpm/z3-solver@4.13.0/node_modules/z3-solver/build/high-level' is not supported resolving ES modules imported from /Users/uwes/src/mixed/z3_issue/nuxt-app/.nuxt/dev/index.mjs
-Did you mean to import "/Users/uwes/src/mixed/z3_issue/nuxt-app/node_modules/.pnpm/z3-solver@4.13.0/node_modules/z3-solver/build/high-level/index.js"?
+building for production using `pnpm build` unfortunately results into a missing `z3-solver` that can be already seen because `.output/server/node_modules` does not contain `z3-solver`
 
-  Did you mean to import "node_modules/.pnpm/z3-solver@4.13.0/node_modules/z3-solver/build/high-level/index.js"?
-  at finalizeResolution (node:internal/modules/esm/resolve:258:11)
-  at moduleResolve (node:internal/modules/esm/resolve:924:10)
-  at defaultResolve (node:internal/modules/esm/resolve:1148:11)
-  at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:390:12)
-  at ModuleLoader.resolve (node:internal/modules/esm/loader:359:25)
-  at ModuleLoader.getModuleJob (node:internal/modules/esm/loader:234:38)
-  at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:87:39)
-  at link (node:internal/modules/esm/module_job:86:36)
-
-^C%       
+important: you must leave the project as otherwise the module `z3-solver` gets loaded via node from the source project. 
 
 ```
+cd /some/where/else
+cp /project/z3_issue/.output .
+node .output/server/index.mjs
 
-if that would work correctly then 
 ```
-curl -s -X POST 'http://localhost:3000/info'  -H "Content-Type: application/json" -d '{"vlnv":"a:b:c:0"}'
+and then run the same curl command as above. that results in 
 ```
-
-should return 'sat'
+➜  temp00 node .output/server/index.mjs
+Listening on http://[::]:3000
+[nuxt] [request error] [unhandled] [500] Cannot find module 'z3-solver'
+Require stack:
+- /Users/uwes/src/mixed/temp00/.output/server/index.mjs
+  at Module._resolveFilename (node:internal/modules/cjs/loader:1142:15)  
+  at Module._load (node:internal/modules/cjs/loader:983:27)  
+  at Module.require (node:internal/modules/cjs/loader:1230:19)  
+  at require (node:internal/modules/helpers:179:18)  
+  at ./.output/server/chunks/routes/api/info.get.mjs:1:338  
+  at ModuleJob.run (node:internal/modules/esm/module_job:222:25)  
+  at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)  
+  at async Object.handler (./.output/server/chunks/runtime.mjs:1:41139)  
+  at async Server.<anonymous> (./.output/server/chunks/runtime.mjs:1:44287)
+^C%   ```

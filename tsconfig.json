@@ -3,7 +3,7 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "target": "es2021",
-    "module": "commonjs",
+    "module": "ESNext",
     "esModuleInterop": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "outDir": "build/",
     "allowJs": true,
-    "checkJs": false
+    "checkJs": false,
+    "verbatimModuleSyntax": false
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
