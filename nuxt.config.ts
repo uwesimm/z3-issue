@@ -16,7 +16,6 @@ export default defineNuxtConfig({
   build:{
     transpile:[]
   },
-  imports: { autoImport: true },
   compatibilityDate: '2024-07-12',
   vite: {
   }
