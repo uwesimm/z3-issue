@@ -15,11 +15,12 @@ pnpm test
 pnpm dev
 ```
 
-and issue the query ```
-curl http://localhost:3000/api/info -H 'Content-Type: application/json'
+and issue the query 
+```
+curl http://localhost:3000/api/info
 ```
 results in 
-```sat```
+`sat`
 
 building for production using `pnpm build` unfortunately results into a missing `z3-solver` that can be already seen because `.output/server/node_modules` does not contain `z3-solver`
 
@@ -29,7 +30,6 @@ important: you must leave the project as otherwise the module `z3-solver` gets l
 cd /some/where/else
 cp /project/z3_issue/.output .
 node .output/server/index.mjs
-
 ```
 and then run the same curl command as above. that results in 
 ```
