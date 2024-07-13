@@ -1,6 +1,9 @@
 import type { H3Event } from 'h3'
-import {Z3_string} from 'z3-solver'
 
+// doesn work
+//import { init } from "z3-solver";
+
+// workaround that import doesnt work
 import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
 const { init } = require('z3-solver')
